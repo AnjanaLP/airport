@@ -1,27 +1,34 @@
 class Airport
 
-  def initialize(capacity)
+  def initialize(capacity, weather)
     @planes = []
     @capacity = capacity
+    @weather = weather
   end
 
   def land(plane)
     raise "Cannot land plane, airport is full" if full?
-    add_plane(plane)
+    raise "Cannot land plane, weather is stormy" if stormy?
+    add_to_planes(plane)
   end
 
   def take_off(plane)
+    raise "Cannot take_off plane, weather is stormy" if stormy?
   end
 
   private
 
-  attr_reader :planes, :capacity
+  attr_reader :planes, :capacity, :weather
 
   def full?
     planes.length >= capacity
   end
 
-  def add_plane(plane)
+  def add_to_planes(plane)
     planes << plane
+  end
+
+  def stormy?
+    weather.stormy?
   end
 end
