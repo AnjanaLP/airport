@@ -1,6 +1,6 @@
 describe 'User Stories' do
 
-  let(:airport) { Airport.new(10, weather) }
+  let(:airport) { Airport.new(weather, 10) }
   let(:plane)   { Plane.new }
   let(:weather) { Weather.new }
 
@@ -38,9 +38,18 @@ describe 'User Stories' do
     # So that I can ensure safe take off procedures
     # I want planes only to take off from the airport they are at
     it 'planes can only take off from the airport they are at' do
-      other_airport = Airport.new(15, weather)
+      other_airport = Airport.new(weather, 15)
       other_airport.land(plane)
       expect { airport.take_off(plane) }.to raise_error "Cannot take off plane, plane at a different airport"
+    end
+
+    # As the system designer
+    # So that the software can be used for many different airports
+    # I would like a default airport capacity that can be overridden as appropriate
+    it 'airports have a default capacity' do
+      default_airport = Airport.new(weather)
+      Airport::DEFAULT_CAPACITY.times { default_airport.land(plane) }
+      expect { default_airport.land(plane) }.to raise_error "Cannot land plane, airport is full"
     end
   end
 
