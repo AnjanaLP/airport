@@ -14,6 +14,7 @@ class Airport
 
   def take_off(plane)
     raise "Cannot take_off plane, weather is stormy" if stormy?
+    raise "Cannot take off plane, plane at a different airport" unless at_airport?(plane)
   end
 
   private
@@ -30,5 +31,9 @@ class Airport
 
   def stormy?
     weather.stormy?
+  end
+
+  def at_airport?(plane)
+    planes.include?(plane)
   end
 end
