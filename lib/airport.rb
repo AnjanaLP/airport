@@ -1,6 +1,8 @@
 class Airport
   DEFAULT_CAPACITY = 5
 
+  attr_reader :planes
+
   def initialize(weather, capacity = DEFAULT_CAPACITY)
     @weather = weather
     @capacity = capacity
@@ -16,11 +18,12 @@ class Airport
   def take_off(plane)
     raise "Cannot take_off plane, weather is stormy" if stormy?
     raise "Cannot take off plane, plane at a different airport" unless at_airport?(plane)
+    planes.pop
   end
 
   private
 
-  attr_reader :planes, :capacity, :weather
+  attr_reader :capacity, :weather
 
   def full?
     planes.length >= capacity

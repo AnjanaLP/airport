@@ -51,6 +51,21 @@ describe 'User Stories' do
       Airport::DEFAULT_CAPACITY.times { default_airport.land(plane) }
       expect { default_airport.land(plane) }.to raise_error "Cannot land plane, airport is full"
     end
+
+    # As an air traffic controller
+    # So the system is consistent and correctly reports plane status and location
+    # I want to ensure a flying plane cannot take off and cannot be in an airport
+    it 'flying planes cannot take off' do
+      airport.land(plane)
+      flying_plane = airport.take_off(plane)
+      expect { flying_plane.take_off }.to raise_error "Plane cannot take off, plane is flying"
+    end
+
+    it 'flying planes cannot be in an airport' do
+      airport.land(plane)
+      flying_plane = airport.take_off(plane)
+      expect { flying_plane.airport }.to raise_error "Plane is not in an airport, plane is flying"
+    end
   end
 
   # As an air traffic controller
