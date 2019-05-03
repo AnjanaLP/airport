@@ -20,7 +20,7 @@ class Airport
     raise "Cannot take_off plane, weather is stormy" if stormy?
     raise "Cannot take off plane, plane at a different airport" unless at_airport?(plane)
     plane.take_off
-    planes.pop
+    remove_from_planes(plane)
   end
 
   private
@@ -41,5 +41,9 @@ class Airport
 
   def at_airport?(plane)
     planes.include?(plane)
+  end
+
+  def remove_from_planes(plane)
+    planes.pop
   end
 end

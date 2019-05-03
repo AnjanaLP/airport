@@ -81,6 +81,15 @@ describe 'User Stories' do
       airport.land(plane)
       expect(plane.airport).to eq airport
     end
+
+    # As an air traffic controller
+    # So the system is consistent and correctly reports plane status and location,
+    # I want to ensure a plane that has taken off from an airport is no longer in that airport
+    it 'planes are no longer in the airport they took off from' do
+      airport.land(plane)
+      airport.take_off(plane)
+      expect(airport.planes).not_to include(plane)
+    end
   end
 
   # As an air traffic controller
