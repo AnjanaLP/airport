@@ -2,7 +2,7 @@
 
 This is a program to control the flow of planes at an airport. The planes can land and take off provided that the weather is sunny. Occasionally it may be stormy, in which case no planes can land or take off.
 
-A test driven approach had been taken in the creation of a set of classes to satisfy all the below user stories. A random number generator has been used to set the weather (it is normally sunny but on rare occasions it may be stormy). The tests have used a stub to override random weather to ensure consistent test behaviour.
+A test driven approach has been taken in the creation of a set of classes to satisfy all the below user stories. A random number generator has been used to set the weather (it is normally sunny but on occasion it may be stormy), which has been implemented in the Weather class and injected into the Airport class as a dependency, thereby ensuring each class maintains a single responsibility. Additionally, should sometime in the future one wants to, for example, use a weather forecasting API instead, it would be simple to do so whilst adhering to the open/closed principle. The tests have used a stub to override random weather to ensure consistent test behaviour. Unit tests include test doubles to effectively isolate the single class being tested and feature tests check correct integration behaviour between the classes.
 
 The code defends against edge cases such as inconsistent states of the system ensuring that planes can only take off from airports they are in; planes that are already flying cannot takes off and/or be in an airport; planes that are landed cannot land again and must be in an airport, etc.
 
