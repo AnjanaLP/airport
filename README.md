@@ -78,15 +78,15 @@ $ irb
 3.1.0 :003 > plane = Plane.new
  => #<Plane:0x00000001066777b0>
 3.1.0 :004 > airport.land(plane)
-Cannot land plane: weather is stormy (RuntimeError)
+<span style="color: red;">Cannot land plane: weather is stormy (RuntimeError)</span>
 3.1.0 :005 > airport.land(plane)
  => [#<Plane:0x00000001066777b0 @airport=#<Airport:0x000000010675df58 @capacity=20, @hangar=[...], @weather=#<Weather:0x000000010675dfd0>>>]
 3.1.0 :006 > airport.land(plane)
-Cannot land plane: plane has already landed (RuntimeError)
+<span style="color: red;">Cannot land plane: plane has already landed (RuntimeError)</span>
 3.1.0 :007 > airport.take_off(plane)
  => #<Plane:0x00000001066777b0 @airport=nil>
 3.1.0 :008 > airport.take_off(plane)
-Plane cannot take off: plane is already flying (RuntimeError)
+<span style="color: red;">Plane cannot take off: plane is already flying (RuntimeError)</span>
 3.1.0 :009 > small_airport = Airport.new(Weather.new, 1)
  => #<Airport:0x000000010680d8e0 @capacity=1, @hangar=[], @weather=#<Weather:0x000000010680d958>>
 3.1.0 :010 > small_airport.land(plane)
@@ -94,23 +94,16 @@ Plane cannot take off: plane is already flying (RuntimeError)
 3.1.0 :011 > another_plane = Plane.new
  => #<Plane:0x00000001066dd380>
 3.1.0 :012 > small_airport.land(another_plane)
-Cannot land plane: airport is full (RuntimeError)
+<span style="color: red;">Cannot land plane: airport is full (RuntimeError)</span>
 3.1.0 :013 > airport.take_off(plane)
-Cannot take off plane: plane is at another airport (RuntimeError)                                                  
+<span style="color: red;">Cannot take off plane: plane is at another airport (RuntimeError)</span>                                                  
 3.1.0 :014 > plane.airport
- =>
-#<Airport:0x000000010680d8e0                       
- @capacity=1,                                      
- @hangar=[#<Plane:0x00000001066777b0 @airport=#<Airport:0x000000010680d8e0 ...>>],
- @weather=#<Weather:0x000000010680d958>>           
+ =>#<Airport:0x000000010680d8e0 @capacity=1, @hangar=[#<Plane:0x00000001066777b0 @airport=#<Airport:0x000000010680d8e0 ...>>], @weather=#<Weather:0x000000010680d958>>           
 3.1.0 :017 > another_plane.airport
  => nil
 3.1.0 :018 > airport.land(another_plane)
  => [#<Plane:0x00000001066dd380 @airport=#<Airport:0x000000010675df58 @capacity=20, @hangar=[...], @weather=#<Weather:0x000000010675dfd0>>>]
 3.1.0 :019 > another_plane.airport
  =>
-#<Airport:0x000000010675df58                               
- @capacity=20,                                             
- @hangar=[#<Plane:0x00000001066dd380 @airport=#<Airport:0x000000010675df58 ...>>],
- @weather=#<Weather:0x000000010675dfd0>>                   
+#<Airport:0x000000010675df58 @capacity=20,@hangar=[#<Plane:0x00000001066dd380 @airport=#<Airport:0x000000010675df58 ...>>], @weather=#<Weather:0x000000010675dfd0>>                   
 ```
