@@ -29,6 +29,11 @@ describe 'User Stories' do
       expect { plane.land(airport) }.to raise_error message
     end
 
+    it 'a landed plane must be at an airport' do
+      airport.land(plane)
+      expect(plane.airport).not_to be_nil
+    end
+
     # As an air traffic controller
     # So I can get passengers on the way to their destination
     # I want to instruct a plane to take off from an airport and confirm that it is no longer in the airport
@@ -73,7 +78,7 @@ describe 'User Stories' do
     it 'an airport prevents landing when it is full' do
       airport.capacity.times do
         new_plane = Plane.new
-        airport.land(new_plane) 
+        airport.land(new_plane)
       end
       message = "Cannot land plane: airport is full"
       expect { airport.land(plane) }.to raise_error message
