@@ -1,8 +1,9 @@
 require 'airport'
 
 describe Airport do
-  subject(:airport)   { described_class.new }
+  subject(:airport)   { described_class.new(weather) }
   let(:plane)         { double :plane, land: nil, take_off: nil }
+  let(:weather)       { double :weather }
 
   describe '#capacity' do
     context 'when none given on initialize' do
@@ -12,7 +13,7 @@ describe Airport do
     end
 
     context 'when given on initialize' do
-      subject(:small_airport)   { described_class.new(5) }
+      subject(:small_airport)   { described_class.new(weather, 5) }
       it 'returns the specified capacity' do
         expect(small_airport.capacity).to eq 5
       end
@@ -40,16 +41,28 @@ describe Airport do
   end
 
   describe '#take_off' do
-    it 'calls the take_off method on the plane' do
-      airport.land(plane)
-      expect(plane).to receive(:take_off)
-      airport.take_off(plane)
+    before { airport.land(plane) }
+
+    context 'when sunny' do
+      before { allow(weather).to receive(:stormy?).and_return false }
+
+      it 'calls the take_off method on the plane' do
+        expect(plane).to receive(:take_off)
+        airport.take_off(plane)
+      end
+
+      it "removes the plane from the airport's hangar" do
+        airport.take_off(plane)
+        expect(airport).to be_empty
+      end
     end
 
-    it "removes the plane from the airport's hangar" do
-      airport.land(plane)
-      airport.take_off(plane)
-      expect(airport).to be_empty
+    context 'when stormy' do
+      it 'raises an error' do
+        allow(weather).to receive(:stormy?).and_return true
+        message = "Cannot take off plane: weather is stormy"
+        expect { airport.take_off(plane) }.to raise_error message
+      end
     end
   end
 end

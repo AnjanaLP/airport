@@ -1,9 +1,10 @@
 class Airport
   DEFAULT_CAPACITY = 20
 
-  attr_reader :capacity
+  attr_reader :weather, :capacity
 
-  def initialize(capacity=DEFAULT_CAPACITY)
+  def initialize(weather, capacity=DEFAULT_CAPACITY)
+    @weather = weather
     @capacity = capacity
     @hangar = []
   end
@@ -15,6 +16,7 @@ class Airport
   end
 
   def take_off(plane)
+    raise "Cannot take off plane: weather is stormy" if weather.stormy?
     plane.take_off
     remove_from_hangar(plane)
   end

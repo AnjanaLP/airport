@@ -1,6 +1,8 @@
 describe 'User Stories' do
-  let(:airport)   { Airport.new }
+  let(:airport)   { Airport.new(weather) }
+  let(:weather)   { Weather.new }
   let(:plane)     { Plane.new }
+
   # As an air traffic controller
   # So I can get passengers to a destination
   # I want to instruct a plane to land at an airport
@@ -22,16 +24,19 @@ describe 'User Stories' do
   # So I can get passengers on the way to their destination
   # I want to instruct a plane to take off from an airport and confirm that it is no longer in the airport
   it 'an airport instructs a plane to take off' do
+    allow(weather).to receive(:stormy?).and_return false
     expect { airport.take_off(plane ) }.not_to raise_error
   end
 
   it 'a taken off plane is not at an airport' do
+    allow(weather).to receive(:stormy?).and_return false
     airport.land(plane)
     airport.take_off(plane)
     expect(plane.airport).to be_nil
   end
 
   it "an airport does not have a taken off plane in it's hangar" do
+    allow(weather).to receive(:stormy?).and_return false
     airport.land(plane)
     airport.take_off(plane)
     expect(airport).to be_empty
@@ -54,7 +59,17 @@ describe 'User Stories' do
   end
 
   it 'the default capacity can be overridden on initialize' do
-    small_airport = Airport.new(5)
+    small_airport = Airport.new(weather, 5)
     expect(small_airport.capacity).to eq 5
+  end
+
+  # As an air traffic controller
+  # To ensure safety
+  # I want to prevent takeoff when weather is stormy
+  it 'an airport prevents take off when weather is stormy' do
+    airport.land(plane)
+    allow(weather).to receive(:stormy?).and_return true
+    message = "Cannot take off plane: weather is stormy"
+    expect { airport.take_off(plane) }.to raise_error message
   end
 end
