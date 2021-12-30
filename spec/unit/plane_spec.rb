@@ -9,6 +9,14 @@ describe Plane do
       plane.land(airport)
       expect(plane.airport).to eq airport
     end
+
+    context 'when already landed' do
+      it 'raises an error' do
+        plane.land(airport)
+        message = "Cannot land plane: plane has already landed"
+        expect { plane.land(airport) }.to raise_error message
+      end
+    end
   end
 
   describe '#take_off' do

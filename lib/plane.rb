@@ -3,6 +3,7 @@ class Plane
   attr_reader :airport
 
   def land(airport)
+    raise "Cannot land plane: plane has already landed" unless flying?
     @airport = airport
   end
 

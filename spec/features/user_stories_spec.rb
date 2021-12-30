@@ -23,6 +23,12 @@ describe 'User Stories' do
       expect(airport).not_to be_empty
     end
 
+    it 'a landed plane cannot land again' do
+      plane.land(airport)
+      message = "Cannot land plane: plane has already landed"
+      expect { plane.land(airport) }.to raise_error message
+    end
+
     # As an air traffic controller
     # So I can get passengers on the way to their destination
     # I want to instruct a plane to take off from an airport and confirm that it is no longer in the airport
@@ -65,7 +71,10 @@ describe 'User Stories' do
     # To ensure safety
     # I want to prevent landing when the airport is full
     it 'an airport prevents landing when it is full' do
-      airport.capacity.times { airport.land(plane) }
+      airport.capacity.times do
+        new_plane = Plane.new
+        airport.land(new_plane) 
+      end
       message = "Cannot land plane: airport is full"
       expect { airport.land(plane) }.to raise_error message
     end
