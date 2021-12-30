@@ -55,16 +55,17 @@ describe Airport do
   describe '#take_off' do
     before do
       allow(weather).to receive(:stormy?).and_return false
-      airport.land(plane)
     end
 
     context 'when sunny' do
       it 'calls the take_off method on the plane' do
+        airport.land(plane)
         expect(plane).to receive(:take_off)
         airport.take_off(plane)
       end
 
       it "removes the plane from the airport's hangar" do
+        airport.land(plane)
         airport.take_off(plane)
         expect(airport).to be_empty
       end
@@ -72,8 +73,10 @@ describe Airport do
       context 'when plane is at another airport' do
         it 'raises an error' do
           other_airport = described_class.new(weather)
+          other_airport.land(plane)
+          allow(plane).to receive(:airport).and_return other_airport
           message = "Cannot take off plane: plane is at another airport"
-          expect { other_airport.take_off(plane) }.to raise_error message
+          expect { airport.take_off(plane) }.to raise_error message
         end
       end
     end

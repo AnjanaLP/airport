@@ -21,8 +21,8 @@ class Airport
 
   def take_off(plane)
     raise "Cannot take off plane: weather is stormy" if stormy?
+    raise "Cannot take off plane: plane is at another airport" if at_different_airport?(plane)
     plane.take_off
-    raise "Cannot take off plane: plane is at another airport" unless at_airport?(plane)
     remove_from_hangar(plane)
   end
 
@@ -50,7 +50,7 @@ class Airport
     weather.stormy?
   end
 
-  def at_airport?(plane)
-    hangar.include?(plane)
+  def at_different_airport?(plane)
+    !hangar.include?(plane) && plane.airport
   end
 end
