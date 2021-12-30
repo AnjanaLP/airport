@@ -5,8 +5,17 @@ describe Airport do
   let(:plane)         { double :plane, land: nil, take_off: nil }
 
   describe '#capacity' do
-    it 'returns the default capacity' do
-      expect(airport.capacity).to eq described_class::DEFAULT_CAPACITY
+    context 'when none given on initialize' do
+      it 'returns the default capacity' do
+        expect(airport.capacity).to eq described_class::DEFAULT_CAPACITY
+      end
+    end
+
+    context 'when given on initialize' do
+      subject(:small_airport)   { described_class.new(5) }
+      it 'returns the specified capacity' do
+        expect(small_airport.capacity).to eq 5
+      end
     end
   end
 
