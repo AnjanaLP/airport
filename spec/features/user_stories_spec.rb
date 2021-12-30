@@ -6,49 +6,50 @@ describe 'User Stories' do
   # As an air traffic controller
   # So I can get passengers to a destination
   # I want to instruct a plane to land at an airport
-  it 'an airport instructs a plane to land' do
-    expect { airport.land(plane ) }.not_to raise_error
-  end
+  context 'when sunny' do
+    before { allow(weather).to receive(:stormy?).and_return false }
 
-  it 'a plane is at the airport it has landed at' do
-    airport.land(plane)
-    expect(plane.airport).to eq airport
-  end
+    it 'an airport instructs a plane to land' do
+      expect { airport.land(plane ) }.not_to raise_error
+    end
 
-  it "an airport has a landed plane in it's hangar" do
-    airport.land(plane)
-    expect(airport).not_to be_empty
-  end
+    it 'a plane is at the airport it has landed at' do
+      airport.land(plane)
+      expect(plane.airport).to eq airport
+    end
 
-  # As an air traffic controller
-  # So I can get passengers on the way to their destination
-  # I want to instruct a plane to take off from an airport and confirm that it is no longer in the airport
-  it 'an airport instructs a plane to take off' do
-    allow(weather).to receive(:stormy?).and_return false
-    expect { airport.take_off(plane ) }.not_to raise_error
-  end
+    it "an airport has a landed plane in it's hangar" do
+      airport.land(plane)
+      expect(airport).not_to be_empty
+    end
 
-  it 'a taken off plane is not at an airport' do
-    allow(weather).to receive(:stormy?).and_return false
-    airport.land(plane)
-    airport.take_off(plane)
-    expect(plane.airport).to be_nil
-  end
+    # As an air traffic controller
+    # So I can get passengers on the way to their destination
+    # I want to instruct a plane to take off from an airport and confirm that it is no longer in the airport
+    it 'an airport instructs a plane to take off' do
+      expect { airport.take_off(plane ) }.not_to raise_error
+    end
 
-  it "an airport does not have a taken off plane in it's hangar" do
-    allow(weather).to receive(:stormy?).and_return false
-    airport.land(plane)
-    airport.take_off(plane)
-    expect(airport).to be_empty
-  end
+    it 'a taken off plane is not at an airport' do
+      airport.land(plane)
+      airport.take_off(plane)
+      expect(plane.airport).to be_nil
+    end
 
-  # As an air traffic controller
-  # To ensure safety
-  # I want to prevent landing when the airport is full
-  it 'an airport prevents landing when it is full' do
-    airport.capacity.times { airport.land(plane) }
-    message = "Cannot land plane: airport is full"
-    expect { airport.land(plane) }.to raise_error message
+    it "an airport does not have a taken off plane in it's hangar" do
+      airport.land(plane)
+      airport.take_off(plane)
+      expect(airport).to be_empty
+    end
+
+    # As an air traffic controller
+    # To ensure safety
+    # I want to prevent landing when the airport is full
+    it 'an airport prevents landing when it is full' do
+      airport.capacity.times { airport.land(plane) }
+      message = "Cannot land plane: airport is full"
+      expect { airport.land(plane) }.to raise_error message
+    end
   end
 
   # As the system designer
@@ -66,10 +67,24 @@ describe 'User Stories' do
   # As an air traffic controller
   # To ensure safety
   # I want to prevent takeoff when weather is stormy
-  it 'an airport prevents take off when weather is stormy' do
-    airport.land(plane)
-    allow(weather).to receive(:stormy?).and_return true
-    message = "Cannot take off plane: weather is stormy"
-    expect { airport.take_off(plane) }.to raise_error message
+  context 'when stormy' do
+    before do
+      allow(weather).to receive(:stormy?).and_return false
+      airport.land(plane)
+      allow(weather).to receive(:stormy?).and_return true
+    end
+
+    it 'an airport prevents take off' do
+      message = "Cannot take off plane: weather is stormy"
+      expect { airport.take_off(plane) }.to raise_error message
+    end
+
+    # As an air traffic controller
+    # To ensure safety
+    # I want to prevent landing when weather is stormy
+    it 'an airport prevents landing' do
+      message = "Cannot land plane: weather is stormy"
+      expect { airport.land(plane) }.to raise_error message
+    end
   end
 end
