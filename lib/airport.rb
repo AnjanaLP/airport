@@ -1,3 +1,6 @@
+require_relative 'plane'
+require_relative 'weather'
+
 class Airport
   DEFAULT_CAPACITY = 20
 
@@ -18,8 +21,8 @@ class Airport
 
   def take_off(plane)
     raise "Cannot take off plane: weather is stormy" if stormy?
-    raise "Cannot take off plane: plane is at another airport" unless at_airport?(plane)
     plane.take_off
+    raise "Cannot take off plane: plane is at another airport" unless at_airport?(plane)
     remove_from_hangar(plane)
   end
 

@@ -24,9 +24,9 @@ describe 'User Stories' do
     end
 
     it 'a landed plane cannot land again' do
-      plane.land(airport)
+      airport.land(plane)
       message = "Cannot land plane: plane has already landed"
-      expect { plane.land(airport) }.to raise_error message
+      expect { airport.land(plane) }.to raise_error message
     end
 
     it 'a landed plane must be at an airport' do
@@ -40,12 +40,6 @@ describe 'User Stories' do
     it 'an airport instructs a plane to take off' do
       airport.land(plane)
       expect { airport.take_off(plane ) }.not_to raise_error
-    end
-
-    it 'a taken off plane is not at an airport' do
-      airport.land(plane)
-      airport.take_off(plane)
-      expect(plane.airport).to be_nil
     end
 
     it "an airport does not have a taken off plane in it's hangar" do
@@ -62,13 +56,15 @@ describe 'User Stories' do
     end
 
     it 'a plane that is already flying cannot take off' do
+      airport.land(plane)
+      airport.take_off(plane)
       message = "Plane cannot take off: plane is already flying"
-      expect { plane.take_off }.to raise_error message
+      expect { airport.take_off(plane) }.to raise_error message
     end
 
     it 'a plane that is already flying cannot be in an airport' do
-      plane.land(airport)
-      plane.take_off
+      airport.land(plane)
+      airport.take_off(plane)
       expect(plane.airport).to be_nil
     end
 
