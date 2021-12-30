@@ -50,6 +50,11 @@ describe 'User Stories' do
       expect { other_airport.take_off(plane) }.to raise_error message
     end
 
+    it 'a plane that is already flying cannot take off' do
+      message = "Plane cannot take off: plane is already flying"
+      expect { plane.take_off }.to raise_error message
+    end
+
     # As an air traffic controller
     # To ensure safety
     # I want to prevent landing when the airport is full
