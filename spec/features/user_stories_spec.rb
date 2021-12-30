@@ -36,4 +36,13 @@ describe 'User Stories' do
     airport.take_off(plane)
     expect(airport).to be_empty
   end
+
+  # As an air traffic controller
+  # To ensure safety
+  # I want to prevent landing when the airport is full
+  it 'an airport prevents landing when it is full' do
+    airport.capacity.times { airport.land(plane) }
+    message = "Cannot land plane: airport is full"
+    expect { airport.land(plane) }.to raise_error message
+  end
 end

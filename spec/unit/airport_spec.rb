@@ -4,6 +4,12 @@ describe Airport do
   subject(:airport)   { described_class.new }
   let(:plane)         { double :plane, land: nil, take_off: nil }
 
+  describe '#capacity' do
+    it 'returns the default capacity' do
+      expect(airport.capacity).to eq described_class::DEFAULT_CAPACITY
+    end
+  end
+
   describe '#land' do
     it 'calls the land method on the plane' do
       expect(plane).to receive(:land).with(airport)
@@ -13,6 +19,14 @@ describe Airport do
     it "adds the plane to the airport's hangar" do
       airport.land(plane)
       expect(airport).not_to be_empty
+    end
+
+    context 'when full' do
+      it 'raises an error' do
+        airport.capacity.times { airport.land(plane) }
+        message = "Cannot land plane: airport is full"
+        expect { airport.land(plane) }.to raise_error message
+      end
     end
   end
 
