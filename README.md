@@ -69,7 +69,7 @@ $ rspec
 
 
 ## Code example
-```
+
 $ irb
 3.1.0 :001 > require './lib/airport'
  => true
@@ -106,4 +106,3 @@ $ irb
 3.1.0 :019 > another_plane.airport
  =>
 #<Airport:0x000000010675df58 @capacity=20,@hangar=[#<Plane:0x00000001066dd380 @airport=#<Airport:0x000000010675df58 ...>>], @weather=#<Weather:0x000000010675dfd0>>                   
-```
