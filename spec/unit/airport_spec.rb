@@ -68,6 +68,14 @@ describe Airport do
         airport.take_off(plane)
         expect(airport).to be_empty
       end
+
+      context 'when plane is at another airport' do
+        it 'raises an error' do
+          other_airport = described_class.new(weather)
+          message = "Cannot take off plane: plane is at another airport"
+          expect { other_airport.take_off(plane) }.to raise_error message
+        end
+      end
     end
 
     context 'when stormy' do

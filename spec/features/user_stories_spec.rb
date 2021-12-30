@@ -27,6 +27,7 @@ describe 'User Stories' do
     # So I can get passengers on the way to their destination
     # I want to instruct a plane to take off from an airport and confirm that it is no longer in the airport
     it 'an airport instructs a plane to take off' do
+      airport.land(plane)
       expect { airport.take_off(plane ) }.not_to raise_error
     end
 
@@ -40,6 +41,13 @@ describe 'User Stories' do
       airport.land(plane)
       airport.take_off(plane)
       expect(airport).to be_empty
+    end
+
+    it 'a plane can only take off from the airport they are in' do
+      airport.land(plane)
+      other_airport = Airport.new(weather)
+      message = "Cannot take off plane: plane is at another airport"
+      expect { other_airport.take_off(plane) }.to raise_error message
     end
 
     # As an air traffic controller
