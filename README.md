@@ -64,7 +64,7 @@ $ rspec
 
 ## Technologies used
 - Ruby
-- Rspec
+- RSpec
 - SimpleCov
 
 
