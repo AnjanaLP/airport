@@ -69,8 +69,7 @@ $ rspec
 
 
 ## Code example
-```
-$ irb
+```ruby
 3.1.0 :001 > require './lib/airport'
  => true
 3.1.0 :002 > airport = Airport.new(Weather.new)
@@ -99,11 +98,11 @@ Cannot land plane: airport is full (RuntimeError)
 Cannot take off plane: plane is at another airport (RuntimeError)                                             
 3.1.0 :014 > plane.airport
  =>#<Airport:0x000000010680d8e0 @capacity=1, @hangar=[#<Plane:0x00000001066777b0 @airport=#<Airport:0x000000010680d8e0 ...>>], @weather=#<Weather:0x000000010680d958>>           
-3.1.0 :017 > another_plane.airport
+3.1.0 :015 > another_plane.airport
  => nil
-3.1.0 :018 > airport.land(another_plane)
+3.1.0 :016 > airport.land(another_plane)
  => [#<Plane:0x00000001066dd380 @airport=#<Airport:0x000000010675df58 @capacity=20, @hangar=[...], @weather=#<Weather:0x000000010675dfd0>>>]
-3.1.0 :019 > another_plane.airport
+3.1.0 :017 > another_plane.airport
  =>
 #<Airport:0x000000010675df58 @capacity=20,@hangar=[#<Plane:0x00000001066dd380 @airport=#<Airport:0x000000010675df58 ...>>], @weather=#<Weather:0x000000010675dfd0>>                   
 ```
